@@ -1,4 +1,5 @@
 import type { MenuTab } from "../types/menu";
+import type { View } from "../types/view";
 
 export const HOUSE = {
   hosts: "Maju & Esdras",
@@ -7,6 +8,8 @@ export const HOUSE = {
 
 /** The album tab. The photos themselves come from Immich, not from here. */
 export const ALBUM = {
+  id: "album" as const,
+  path: "/album",
   title: "Álbum",
   loading: "Carregando as fotos…",
   error: "Não foi possível carregar o álbum agora.",
@@ -16,6 +19,7 @@ export const ALBUM = {
 export const MENU: MenuTab[] = [
   {
     id: "cafe",
+    path: "/",
     title: "Café",
     categories: [
       {
@@ -115,6 +119,7 @@ export const MENU: MenuTab[] = [
   },
   {
     id: "night",
+    path: "/noite",
     title: "Noite",
     categories: [
       {
@@ -164,4 +169,14 @@ export const MENU: MenuTab[] = [
       },
     ],
   },
+];
+
+/**
+ * Every top-level tab, in display order — the single source for the tab nav, URL routing, and
+ * swipe order. Adding a tab (a new `MENU` entry, or another `ALBUM`-style one appended here) needs
+ * no other change in `App.tsx` or `Tabs.tsx`.
+ */
+export const TABS: { id: View; path: string; title: string }[] = [
+  ...MENU.map(({ id, path, title }) => ({ id, path, title })),
+  { id: ALBUM.id, path: ALBUM.path, title: ALBUM.title },
 ];

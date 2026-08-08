@@ -21,6 +21,8 @@ export interface MenuCategory {
 
 export interface MenuTab {
   id: MenuTabId;
+  /** The tab's URL, e.g. '/' or '/noite'. The single source for its route — see `TABS` in menu.ts. */
+  path: string;
   /** Used only for the sr-only heading — the tab nav already shows it visibly. */
   title: string;
   categories: MenuCategory[];

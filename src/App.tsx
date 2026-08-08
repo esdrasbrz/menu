@@ -1,10 +1,10 @@
-import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
+import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
 import { Menu } from './components/Menu';
 import { ItemDetail } from './components/ItemDetail';
 import { Footer } from './components/Footer';
 import { Tabs } from './components/Tabs';
-import { ALBUM, HOUSE, MENU } from './data/menu';
+import { ALBUM, HOUSE, MENU, TABS } from './data/menu';
 import type { MenuItem } from './types/menu';
 import type { View } from './types/view';
 
@@ -18,10 +18,14 @@ function themeForNow(): 'day' | 'night' {
 }
 
 function viewForPath(path: string): View {
-  if (path === '/noite') return 'night';
-  if (path === '/album') return 'album';
-  return 'cafe';
+  return TABS.find((tab) => tab.path === path)?.id ?? TABS[0].id;
 }
+
+/** Left-to-right order of the tabs, for swipe navigation — matches the nav in TABS. */
+const VIEW_ORDER = TABS.map((tab) => tab.id);
+
+/** Shorter than this, or more vertical than horizontal, and it's a scroll or a tap — not a swipe. */
+const SWIPE_THRESHOLD = 48;
 
 export function App() {
   const [theme, setTheme] = useState(themeForNow);
@@ -40,13 +44,41 @@ export function App() {
   }, []);
 
   const navigate = useCallback((next: View) => {
-    const path = next === 'night' ? '/noite' : next === 'album' ? '/album' : '/';
+    const path = TABS.find((tab) => tab.id === next)?.path ?? '/';
     window.history.pushState(null, '', path);
     setView(next);
     window.scrollTo(0, 0);
   }, []);
 
   const activeTab = MENU.find((tab) => tab.id === view);
+
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    // A dialog (item detail or the album lightbox) sits on a `.backdrop` above main and handles
+    // its own swipes — main must not also react to a gesture that started inside one.
+    if ((e.target as HTMLElement).closest('.backdrop')) return;
+
+    const t = e.changedTouches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  }, []);
+
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const start = touchStart.current;
+      touchStart.current = null;
+      if (!start) return;
+
+      const t = e.changedTouches[0];
+      const dx = t.clientX - start.x;
+      const dy = t.clientY - start.y;
+      if (Math.abs(dx) < SWIPE_THRESHOLD || Math.abs(dx) < Math.abs(dy)) return;
+
+      const next = VIEW_ORDER[VIEW_ORDER.indexOf(view) + (dx < 0 ? 1 : -1)];
+      if (next) navigate(next);
+    },
+    [view, navigate],
+  );
 
   return (
     <div className="page">
@@ -65,7 +97,7 @@ export function App() {
         <Tabs view={view} onNavigate={navigate} />
       </header>
 
-      <main>
+      <main onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
         {view === 'album' ? (
           <Suspense fallback={<p className="album-message">{ALBUM.loading}</p>}>
             <Album />

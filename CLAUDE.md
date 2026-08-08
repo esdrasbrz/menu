@@ -48,7 +48,9 @@ React + TypeScript + Vite. All menu content is driven by one data file:
   file. A category's `title` is optional — leave it unset for a category whose items need no
   heading, set it whenever a group deserves one, whether or not the tab has other categories, e.g.
   Café's `cafe-cafes` / `cafe-com-leite` / `cafe-outros`. `description` is the one line shown in
-  the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog.
+  the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog. The file also
+  derives `TABS` — every top-level tab's `{ id, path, title }`, in display order — from `MENU` plus
+  `ALBUM`; it is the single source for the tab nav, URL routing, and swipe order (see below).
 - [`src/types/menu.ts`](src/types/menu.ts) — the `MenuItem` / `MenuCategory` / `MenuTab` shapes that
   `menu.ts` must satisfy.
 - [`src/App.tsx`](src/App.tsx) — top-level layout and state: which tab is open, which item is
@@ -62,11 +64,15 @@ React + TypeScript + Vite. All menu content is driven by one data file:
 - `public/images/` — menu item photos, shown only in the detail dialog (not the list). Album photos
   do not live here; they come from Immich.
 
-**Tabs**: one view per `MenuTab` plus `album` (`/`, `/noite`, `/album`), switched with
-`history.pushState` and a `popstate` listener in `App.tsx` — there is no router, and this few views
-don't warrant one. Adding a `MenuTab` needs a matching path added to `PATHS` in `Tabs.tsx` and to
-`viewForPath`/`navigate` in `App.tsx`. `Album` is behind `React.lazy` so the menu page never
-downloads it; keep it that way, and keep its default export.
+**Tabs**: one view per entry in `TABS` (`/`, `/noite`, `/album`), switched with `history.pushState`
+and a `popstate` listener in `App.tsx` — there is no router, and this few views don't warrant one.
+`Tabs.tsx`, `viewForPath`, `navigate`, and swipe navigation (`VIEW_ORDER`) all read `TABS` directly,
+so a `MenuTab` with items needs nothing beyond a new `MENU` entry (with its own `path`) — no other
+file changes. A tab that isn't a plain item list (like `Album`, which fetches from Immich instead
+of rendering `MENU`) still needs its own branch in the `view === '…'` check in `App.tsx`'s `<main>`,
+the same way `album` has one; that branch is inherent to it needing different rendering, not routing.
+`Album` is behind `React.lazy` so the menu page never downloads it; keep it that way, and keep its
+default export.
 
 **Categories vs. items**: a category title (when shown) is a small uppercase label — `.category-title`
 — never styled like a list row, so it can't be mistaken for a tappable item. An item row always
