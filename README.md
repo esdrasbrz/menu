@@ -35,6 +35,41 @@ and blocks commits, while rules set to `warn` are advisory and don't. In a genui
 `git commit --no-verify` skips the hook, but the same checks run again in CI on every pull request,
 so the branch still has to pass.
 
+## Deploying it
+
+The app ships as a Docker image: [`Dockerfile`](Dockerfile) builds the site with Node and serves
+the result with nginx ([`nginx.conf`](nginx.conf) — SPA fallback, gzip, long-lived caching for the
+fingerprinted assets and none for `index.html`, plus a `/healthz` endpoint).
+
+Build and run it locally:
+
+```bash
+docker build -t menu .
+```
+
+```bash
+docker run --rm -p 8080:80 menu
+```
+
+On the home server, pull the published image instead. It's built for `linux/amd64` and
+`linux/arm64`, listens on port 80 and has a healthcheck, so a compose service is enough:
+
+```yaml
+services:
+  menu:
+    image: <docker-hub-user>/menu:latest
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+```
+
+**Publishing** — [`.github/workflows/docker.yml`](.github/workflows/docker.yml) builds the image on
+every pull request and pushes it to Docker Hub on `main` (as `latest` and the commit sha) and on
+`v*` tags (as the version). It needs two things configured on the repository: a variable
+`DOCKERHUB_USERNAME` with the Docker Hub account, and a secret `DOCKERHUB_TOKEN` with an access
+token that can write to it. Until both exist the workflow still builds, and warns instead of
+pushing.
+
 ## How it's put together
 
 React + TypeScript + Vite. No backend, no ordering — it's a menu, not a shop.
