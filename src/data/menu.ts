@@ -2,7 +2,7 @@ import type { MenuSection } from '../types/menu';
 
 export const HOUSE = {
   hosts: 'Maju & Esdras',
-  tagline: 'Our home café and bar. Help yourself.',
+  tagline: 'Nosso café e bar em casa. Fique à vontade.',
   wifiNetwork: 'MajuEsdras_Guest',
   wifiPassword: 'coffee-and-cocktails'
 };
@@ -11,110 +11,110 @@ export const MENU: MenuSection[] = [
   {
     id: 'cafe',
     title: 'Café',
-    subtitle: 'Breakfast and afternoon bites',
-    hours: 'Morning until dusk',
+    subtitle: 'Para o café da manhã e a tarde',
+    hours: 'Da manhã ao entardecer',
     items: [
       {
         id: 'vira-lata-caramelo',
         name: 'Vira-Lata Caramelo',
-        description: 'Iced salted caramel macchiato — the house signature',
+        description: 'Macchiato gelado de caramelo salgado — o clássico da casa',
         image: '/images/vira_lata_caramelo.jpg',
-        notes: ['Salted caramel', 'Cold milk', 'Espresso crema', 'Sea salt'],
+        notes: ['Caramelo salgado', 'Leite gelado', 'Crema de espresso', 'Flor de sal'],
         story:
-          'Named for Brazil’s beloved caramel-coated street dog — warm, joyful, impossible to ignore. Built in a chilled glass with ribbons of handmade salted caramel and cold milk, a double ristretto floated on top, finished with froth and flaky salt.',
+          'Batizado em homenagem ao querido cachorro caramelo das ruas do Brasil — caloroso, alegre, impossível de ignorar. Montado em copo gelado com fios de caramelo salgado feito em casa e leite gelado, um ristretto duplo flutuando por cima, finalizado com espuma e flor de sal.',
         hostTip:
-          'First sip without stirring, to catch the hot espresso against the cold caramel milk. Then swirl.'
+          'O primeiro gole sem mexer, para pegar o espresso quente contra o leite gelado com caramelo. Depois, misture.'
       },
       {
         id: 'specialty-pourover',
-        name: 'Ethiopian V60',
-        description: 'Single-origin pour-over, washed Yirgacheffe heirloom',
+        name: 'V60 Etíope',
+        description: 'Coado de origem única, Yirgacheffe heirloom lavado',
         image: '/images/specialty_pourover.jpg',
-        notes: ['Jasmine', 'Peach', 'Bergamot', 'Wild honey'],
+        notes: ['Jasmim', 'Pêssego', 'Bergamota', 'Mel silvestre'],
         story:
-          'Hand-poured through a glass V60 at 93 °C in four pours, with a 45-second bloom. Slow and deliberate, which is the point of it.',
-        hostTip: 'Drink it black. Sugar and milk flatten the peach.'
+          'Coado à mão em V60 de vidro a 93 °C em quatro despejos, com 45 segundos de pré-infusão. Lento e cuidadoso, que é justamente a graça dele.',
+        hostTip: 'Tome puro. Açúcar e leite achatam o pêssego.'
       },
       {
         id: 'ceremonial-matcha',
-        name: 'Cloud Matcha Latte',
-        description: 'Ceremonial Uji matcha over vanilla oat milk',
+        name: 'Matcha Latte Nuvem',
+        description: 'Matcha cerimonial de Uji sobre leite de aveia com baunilha',
         image: '/images/matcha_latte.jpg',
-        notes: ['Green umami', 'Vanilla', 'Toasted oat'],
+        notes: ['Umami verde', 'Baunilha', 'Aveia tostada'],
         story:
-          'Ceremonial-grade matcha from Uji, Kyoto, whisked by hand with a bamboo chasen until it froths, then layered over chilled oat milk and vanilla.',
-        hostTip: 'Gentler than coffee and it lasts longer — good for a slow afternoon.'
+          'Matcha de grau cerimonial de Uji, em Kyoto, batido à mão com um chasen de bambu até espumar, e então servido em camadas sobre leite de aveia gelado com baunilha.',
+        hostTip: 'Mais suave que café e dura mais tempo — perfeito para uma tarde sem pressa.'
       },
       {
         id: 'cold-brew-tonic',
-        name: 'Cold Brew Tonic',
-        description: 'Eighteen-hour steep, tonic water, burnt orange',
+        name: 'Cold Brew Tônica',
+        description: 'Extração de dezoito horas, água tônica e laranja queimada',
         image: '/images/specialty_pourover.jpg',
-        notes: ['Sparkling', 'Dark chocolate', 'Quinine', 'Charred orange'],
+        notes: ['Borbulhante', 'Chocolate amargo', 'Quinino', 'Laranja tostada'],
         story:
-          'Eighteen hours of cold extraction takes the bitterness out entirely. Poured over ice with tonic and a slice of dehydrated blood orange.',
-        hostTip: 'The one to ask for on a hot afternoon.'
+          'Dezoito horas de extração a frio tiram o amargor por completo. Servido com gelo, água tônica e uma rodela de laranja sanguínea desidratada.',
+        hostTip: 'O pedido certo para uma tarde quente.'
       },
       {
         id: 'botanical-yuzu-spritz',
-        name: 'Yuzu & Rosemary Spritz',
-        description: 'Zero-proof citrus, house rosemary cordial, soda',
+        name: 'Spritz de Yuzu e Alecrim',
+        description: 'Sem álcool: cítricos, xarope de alecrim da casa e água com gás',
         image: '/images/matcha_latte.jpg',
-        notes: ['Yuzu', 'Rosemary', 'Meyer lemon'],
+        notes: ['Yuzu', 'Alecrim', 'Limão-siciliano'],
         story:
-          'For anyone who wants something with craft to it and no alcohol in it. Japanese yuzu juice, a rosemary-lemongrass cordial we make here, and sparkling water.',
-        hostTip: 'Slap the rosemary against your wrist before it goes in the glass.'
+          'Para quem quer algo bem feito e sem álcool. Suco de yuzu japonês, um xarope de alecrim e capim-limão que fazemos aqui, e água com gás.',
+        hostTip: 'Bata o ramo de alecrim no pulso antes de colocá-lo no copo.'
       },
       {
         id: 'artisan-grazing-board',
-        name: 'Grazing Board',
-        description: 'Prosciutto, aged gouda, figs and honeycomb',
+        name: 'Tábua de Frios',
+        description: 'Presunto de Parma, gouda envelhecido, figos e favo de mel',
         image: '/images/grazing_board.jpg',
-        notes: ['Cured prosciutto', 'Aged gouda', 'Honeycomb', 'Fresh figs'],
+        notes: ['Presunto de Parma', 'Gouda envelhecido', 'Favo de mel', 'Figos frescos'],
         story:
-          'Prosciutto di Parma, triple-crème brie, gouda aged long enough to crunch, raw honeycomb, mission figs, seeded sourdough crisps and rosemary, on an olive wood plank.',
+          'Presunto di Parma, brie triplo creme, gouda envelhecido a ponto de estalar, favo de mel puro, figos, crocantes de fermentação natural com sementes e alecrim, numa tábua de oliveira.',
         hostTip:
-          'Fig, brie, honeycomb and a fold of prosciutto on one crisp. Build it in that order.'
+          'Figo, brie, favo de mel e uma dobra de presunto sobre um crocante. Monte nessa ordem.'
       }
     ]
   },
   {
     id: 'night',
-    title: 'Night',
-    subtitle: 'Drinks for evening gatherings',
-    hours: 'Dusk until late',
+    title: 'Noite',
+    subtitle: 'Drinks para os encontros da noite',
+    hours: 'Do entardecer até tarde',
     items: [
       {
         id: 'smoked-old-fashioned',
-        name: 'Smoked Old Fashioned',
-        description: 'Bourbon, house bitters, flamed citrus, cherrywood smoke',
+        name: 'Old Fashioned Defumado',
+        description: 'Bourbon, bitter da casa, cítrico flambado e defumação de cerejeira',
         image: '/images/smoked_old_fashioned.jpg',
-        notes: ['Cherrywood', 'Vanilla oak', 'Caramelised orange', 'Luxardo'],
+        notes: ['Madeira de cerejeira', 'Carvalho e baunilha', 'Laranja caramelizada', 'Luxardo'],
         story:
-          'Small-batch bourbon stirred with demerara and Angostura, then trapped under a cloche with smoke from charred cherrywood chips. It takes a few minutes and it is worth them.',
+          'Bourbon de pequenos lotes mexido com demerara e Angostura, depois preso sob uma redoma com a fumaça de lascas de cerejeira tostadas. Leva alguns minutos e vale cada um deles.',
         hostTip:
-          'Breathe in the smoke before the first sip, and let the ice do its work slowly.'
+          'Sinta o aroma da fumaça antes do primeiro gole e deixe o gelo trabalhar devagar.'
       },
       {
         id: 'espresso-martini-riserva',
         name: 'Espresso Martini',
-        description: 'Fresh double ristretto, vodka, Kahlúa',
+        description: 'Ristretto duplo na hora, vodca e Kahlúa',
         image: '/images/espresso_martini.jpg',
-        notes: ['Espresso crema', 'Roasted cocoa', 'Vanilla'],
+        notes: ['Crema de espresso', 'Cacau torrado', 'Baunilha'],
         story:
-          'Never cold brew — a hot double ristretto straight from the machine into the shaker with frozen ice, which is what builds that dense golden foam.',
+          'Nunca com cold brew — um ristretto duplo quente direto da máquina para a coqueteleira com gelo congelado, e é isso que forma aquela espuma dourada e densa.',
         hostTip:
-          'The three coffee beans on top are for health, wealth and happiness. House rule.'
+          'Os três grãos de café por cima são para saúde, prosperidade e felicidade. Regra da casa.'
       },
       {
         id: 'orange-flame-wine',
-        name: 'Orange Flame',
-        description: 'Skin-contact amber wine, natural, 2022',
+        name: 'Chama Laranja',
+        description: 'Vinho laranja de maceração, natural, 2022',
         image: '/images/natural_wine.jpg',
-        notes: ['Dried apricot', 'Orange blossom', 'Kumquat', 'Tannin'],
+        notes: ['Damasco seco', 'Flor de laranjeira', 'Kumquat', 'Taninos'],
         story:
-          'Ribolla Gialla and Malvasia from a small biodynamic grower, fermented on the skins for thirty days in clay amphorae with no added sulphur.',
-        hostTip: 'Served cool, around 12 °C. It opens up as it warms in the glass.'
+          'Ribolla Gialla e Malvasia de um pequeno produtor biodinâmico, fermentados com as cascas por trinta dias em ânforas de barro, sem sulfitos adicionados.',
+        hostTip: 'Servido fresco, por volta de 12 °C. Ele se abre conforme aquece na taça.'
       }
     ]
   }

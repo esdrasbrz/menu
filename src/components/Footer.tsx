@@ -7,12 +7,12 @@ export function Footer() {
       <div>
         <div className="wifi-label">
           <Wifi size={13} strokeWidth={2} />
-          Guest WiFi
+          WiFi para visitas
         </div>
         <dl className="wifi-rows">
-          <dt>Network</dt>
+          <dt>Rede</dt>
           <dd>{HOUSE.wifiNetwork}</dd>
-          <dt>Password</dt>
+          <dt>Senha</dt>
           <dd>{HOUSE.wifiPassword}</dd>
         </dl>
       </div>
