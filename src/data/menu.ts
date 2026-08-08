@@ -29,87 +29,78 @@ export const MENU: MenuSection[] = [
     hours: "Da manhã ao entardecer",
     items: [
       {
-        id: "vira-lata-caramelo",
-        name: "Vira-Lata Caramelo",
-        description:
-          "Macchiato gelado de caramelo salgado — o clássico da casa",
-        image: "/images/vira_lata_caramelo.jpg",
-        notes: [
-          "Caramelo salgado",
-          "Leite gelado",
-          "Crema de espresso",
-          "Flor de sal",
-        ],
+        id: "espresso",
+        name: "Espresso",
+        description: "Duplo ou Simples",
+        image: "/images/espresso.webp",
+        notes: ["Chocolate", "Nozes", "Avelã"],
         story:
-          "Batizado em homenagem ao querido cachorro caramelo das ruas do Brasil — caloroso, alegre, impossível de ignorar. Montado em copo gelado com fios de caramelo salgado feito em casa e leite gelado, um ristretto duplo flutuando por cima, finalizado com espuma e flor de sal.",
-        hostTip:
-          "O primeiro gole sem mexer, para pegar o espresso quente contra o leite gelado com caramelo. Depois, misture.",
+          "Método de extração sob pressão criado na Itália " +
+          "para extrair rapidamente os óleos essenciais do café, e o seu nome " +
+          'vem do italiano para "pressionado para fora"',
+        hostTip: "Dê uma leve misturada na crema antes de tomar.",
       },
       {
-        id: "specialty-pourover",
-        name: "V60 Etíope",
-        description: "Coado de origem única, Yirgacheffe heirloom lavado",
+        id: "v60",
+        name: "Hario V60",
+        description: "Café especial filtrado na Hario V60®",
         image: "/images/specialty_pourover.jpg",
-        notes: ["Jasmim", "Pêssego", "Bergamota", "Mel silvestre"],
+        notes: ["Frutas amarelas", "Caramelo claro"],
         story:
-          "Coado à mão em V60 de vidro a 93 °C em quatro despejos, com 45 segundos de pré-infusão. Lento e cuidadoso, que é justamente a graça dele.",
-        hostTip: "Tome puro. Açúcar e leite achatam o pêssego.",
-      },
-      {
-        id: "ceremonial-matcha",
-        name: "Matcha Latte Nuvem",
-        description:
-          "Matcha cerimonial de Uji sobre leite de aveia com baunilha",
-        image: "/images/matcha_latte.jpg",
-        notes: ["Umami verde", "Baunilha", "Aveia tostada"],
-        story:
-          "Matcha de grau cerimonial de Uji, em Kyoto, batido à mão com um chasen de bambu até espumar, e então servido em camadas sobre leite de aveia gelado com baunilha.",
+          "Seu nome deriva do seu formato cônico com um ângulo preciso de 60 graus, " +
+          "projetado para direcionar o fluxo de água para o centro, aumentando o " +
+          "tempo de contato com o café.",
         hostTip:
-          "Mais suave que café e dura mais tempo — perfeito para uma tarde sem pressa.",
+          "Espera um minuto ou dois para ele dar uma amornada. Conforme a " +
+          "temperatura cai, os aromas se abrem e você consegue sentir de verdade as notas " +
+          "mais doces e frutadas da torra.",
       },
       {
-        id: "cold-brew-tonic",
-        name: "Cold Brew Tônica",
-        description:
-          "Extração de dezoito horas, água tônica e laranja queimada",
-        image: "/images/specialty_pourover.jpg",
-        notes: [
-          "Borbulhante",
-          "Chocolate amargo",
-          "Quinino",
-          "Laranja tostada",
-        ],
+        id: "aeropress",
+        name: "Aeropress",
+        description: "Café especial preparado na Aeropress®",
+        image: "/images/aeropress.webp",
+        notes: ["Frutas amarelas", "Caramelo claro"],
         story:
-          "Dezoito horas de extração a frio tiram o amargor por completo. Servido com gelo, água tônica e uma rodela de laranja sanguínea desidratada.",
-        hostTip: "O pedido certo para uma tarde quente.",
-      },
-      {
-        id: "botanical-yuzu-spritz",
-        name: "Spritz de Yuzu e Alecrim",
-        description:
-          "Sem álcool: cítricos, xarope de alecrim da casa e água com gás",
-        image: "/images/matcha_latte.jpg",
-        notes: ["Yuzu", "Alecrim", "Limão-siciliano"],
-        story:
-          "Para quem quer algo bem feito e sem álcool. Suco de yuzu japonês, um xarope de alecrim e capim-limão que fazemos aqui, e água com gás.",
-        hostTip: "Bata o ramo de alecrim no pulso antes de colocá-lo no copo.",
-      },
-      {
-        id: "artisan-grazing-board",
-        name: "Tábua de Frios",
-        description:
-          "Presunto de Parma, gouda envelhecido, figos e favo de mel",
-        image: "/images/grazing_board.jpg",
-        notes: [
-          "Presunto de Parma",
-          "Gouda envelhecido",
-          "Favo de mel",
-          "Figos frescos",
-        ],
-        story:
-          "Presunto di Parma, brie triplo creme, gouda envelhecido a ponto de estalar, favo de mel puro, figos, crocantes de fermentação natural com sementes e alecrim, numa tábua de oliveira.",
+          "Inventada em 2005 por Alan Adler, que usou princípios de física e hidráulica para criar o método, " +
+          "combinando a imersão total da prensa francesa com a pressão rápida do espresso.",
         hostTip:
-          "Figo, brie, favo de mel e uma dobra de presunto sobre um crocante. Monte nessa ordem.",
+          "Experimente dar o primeiro gole retendo " +
+          "o café no meio da língua antes de engolir para sentir a textura aveludada.",
+      },
+      {
+        id: "capuccino",
+        name: "Capuccino Italiano",
+        description: "Café espresso com leite vaporizado",
+        image: "/images/capuccino.jpg",
+        notes: ["Microespuma aveludada"],
+        story:
+          "Reza a lenda que a cor da mistura de café com leite, rematada por uma espuma clara, lembrava " +
+          "a túnica com capuz usada pelos Frades Menores Capuchinhos (Cappuccini), do século XVII.",
+        hostTip:
+          "Experimente não misturar a espuma com a colher antes de beber. " +
+          "O charme da bebida está no contraste entre a cremosidade fria da " +
+          "espuma e o espresso quente.",
+      },
+      {
+        id: "viralatte-caramelo",
+        name: "ViraLatte Caramelo",
+        description:
+          "Macchiato de caramelo — o clássico da casa (gelado ou quente)",
+        image: "/images/viralatte_caramelo.jpg",
+        notes: ["Caramelo", "Leite", "Crema de espresso"],
+        story:
+          "Batizado em homenagem ao querido cachorro caramelo das ruas do Brasil — caloroso, alegre, impossível de ignorar.",
+        hostTip: "Acrescente canela. Muita!",
+      },
+      {
+        id: "agua",
+        name: "Água da casa",
+        description: "É o que é",
+        image: "/images/agua.jpg",
+        notes: ["Aguada"],
+        story: "",
+        hostTip: "Beba com frequência.",
       },
     ],
   },
