@@ -42,21 +42,23 @@ guest-facing text.
 React + TypeScript + Vite. All menu content is driven by one data file:
 
 - [`src/data/menu.ts`](src/data/menu.ts) — the single source of truth for content: `HOUSE` (hosts,
-  tagline, ...), `MENU` (an array of `MenuTab` — currently `cafe` and `night` — each with a
-  `categories` array of `MenuCategory`, each with an `items` array of `MenuItem`), and `ALBUM` (the
-  album tab's copy and its loading, error and empty messages). To edit the menu, edit only this
+  tagline, ...), `MENU` (an array of `MenuTab` — currently `day` and `night` — each with a `theme`
+  (which palette is active while it's open — see Day/night theme below), and a `categories` array
+  of `MenuCategory`, each with an `items` array of `MenuItem`), and `ALBUM` (the album tab's copy,
+  its own `theme`, and its loading, error and empty messages). To edit the menu, edit only this
   file. A category's `title` is optional — leave it unset for a category whose items need no
   heading, set it whenever a group deserves one, whether or not the tab has other categories, e.g.
-  Café's `cafe-cafes` / `cafe-com-leite` / `cafe-outros`. `description` is the one line shown in
-  the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog. The file also
-  derives `TABS` — every top-level tab's `{ id, path, title }`, in display order — from `MENU` plus
-  `ALBUM`; it is the single source for the tab nav, URL routing, and swipe order (see below).
+  the day tab's `cafe-cafes` / `cafe-com-leite` / `cafe-outros`. `description` is the one line shown
+  in the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog. The file also
+  derives `TABS` — every top-level tab's `{ id, path, title, theme }`, in display order — from `MENU`
+  plus `ALBUM`; it is the single source for the tab nav, URL routing, swipe order, and theme (see
+  below).
 - [`src/types/menu.ts`](src/types/menu.ts) — the `MenuItem` / `MenuCategory` / `MenuTab` shapes that
   `menu.ts` must satisfy.
-- [`src/App.tsx`](src/App.tsx) — top-level layout and state: which tab is open, which item is
-  selected (opens `ItemDetail`), and the day/night theme.
+- [`src/App.tsx`](src/App.tsx) — top-level layout and state: which tab is open and which item is
+  selected (opens `ItemDetail`); the day/night theme is derived from the open tab, not stored here.
 - `src/components/`
-  - `Tabs.tsx` — the Café / Noite / Álbum switcher, built from `MENU` plus `ALBUM`.
+  - `Tabs.tsx` — the Dia / Noite / Álbum switcher, built from `MENU` plus `ALBUM`.
   - `Menu.tsx` — renders one tab: its header, then each category's items as tappable rows.
   - `ItemDetail.tsx` — the dialog showing an item's photo, notes, story, and host tip.
   - `Album.tsx` / `AlbumTile.tsx` / `Lightbox.tsx` — the album tab.
@@ -64,7 +66,7 @@ React + TypeScript + Vite. All menu content is driven by one data file:
 - `public/images/` — menu item photos, shown only in the detail dialog (not the list). Album photos
   do not live here; they come from Immich.
 
-**Tabs**: one view per entry in `TABS` (`/`, `/noite`, `/album`), switched with `history.pushState`
+**Tabs**: one view per entry in `TABS` (`/`, `/night`, `/album`), switched with `history.pushState`
 and a `popstate` listener in `App.tsx` — there is no router, and this few views don't warrant one.
 `Tabs.tsx`, `viewForPath`, `navigate`, and swipe navigation (`VIEW_ORDER`) all read `TABS` directly,
 so a `MenuTab` with items needs nothing beyond a new `MENU` entry (with its own `path`) — no other
@@ -117,10 +119,14 @@ because the output is static, so multi-arch images build without emulation.
 [`.github/workflows/docker.yml`](.github/workflows/docker.yml) publishes it to Docker Hub for the
 home server; see the README for the variables and secrets it needs.
 
-**Day/night theme**: the theme is derived from the device clock (day 06:00–18:00, night otherwise).
-It's set once before first paint by an inline script in [`index.html`](index.html) (to avoid a
-flash of the wrong theme), then re-derived by `themeForNow()` in `App.tsx` on load; the toggle in
-the top-right overrides it for the rest of the visit. Both palettes live entirely as CSS custom
-properties scoped under `body[data-theme="day"|"night"]` in [`src/index.css`](src/index.css) —
-nothing else in the CSS hardcodes a color, so new UI should read colors from those custom
-properties rather than introducing new literals.
+**Day/night theme**: the theme follows the open tab, not the device clock — each entry in `TABS`
+carries a `theme` (set via `theme` on its `MenuTab` in [`src/data/menu.ts`](src/data/menu.ts), or on
+`ALBUM`), and `themeForView()` in `App.tsx` looks it up for the current `view` on every render.
+There is no manual override. Because the theme is keyed off the URL, an inline script in
+[`index.html`](index.html) sets `data-theme` from `window.location.pathname` before first paint (to
+avoid a flash of the wrong palette on a direct load of `/night` or `/album`) — it hardcodes the same
+day-tab-is-`/`-everything-else-is-night split as the `theme` fields in `menu.ts`, so if a tab's theme
+or the day tab's path ever changes, update both. Both palettes live entirely as CSS custom properties
+scoped under `body[data-theme="day"|"night"]` in [`src/index.css`](src/index.css) — nothing else in
+the CSS hardcodes a color, so new UI should read colors from those custom properties rather than
+introducing new literals.

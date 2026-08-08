@@ -106,24 +106,6 @@ button {
   color: var(--text-muted);
 }
 
-.theme-toggle {
-  position: absolute;
-  top: -0.5rem;
-  right: 0;
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  color: var(--text-muted);
-  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
-}
-
-.theme-toggle:hover {
-  color: var(--accent);
-  background: var(--line-soft);
-}
-
 /* ---------- Tabs ---------- */
 
 .tabs {

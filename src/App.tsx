@@ -1,5 +1,4 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react';
-import { Sun, Moon } from 'lucide-react';
 import { Menu } from './components/Menu';
 import { ItemDetail } from './components/ItemDetail';
 import { Footer } from './components/Footer';
@@ -11,14 +10,13 @@ import type { View } from './types/view';
 // Split out, so a guest who only reads the menu never downloads the album or thumbhash.
 const Album = lazy(() => import('./components/Album'));
 
-/** Day between 06:00 and 18:00, night otherwise. */
-function themeForNow(): 'day' | 'night' {
-  const hour = new Date().getHours();
-  return hour >= 6 && hour < 18 ? 'day' : 'night';
-}
-
 function viewForPath(path: string): View {
   return TABS.find((tab) => tab.path === path)?.id ?? TABS[0].id;
+}
+
+/** Each tab carries its own palette (`theme` in menu.ts) — day and night swap by tab, not by clock. */
+function themeForView(view: View): 'day' | 'night' {
+  return TABS.find((tab) => tab.id === view)?.theme ?? 'day';
 }
 
 /** Left-to-right order of the tabs, for swipe navigation — matches the nav in TABS. */
@@ -28,9 +26,9 @@ const VIEW_ORDER = TABS.map((tab) => tab.id);
 const SWIPE_THRESHOLD = 48;
 
 export function App() {
-  const [theme, setTheme] = useState(themeForNow);
   const [selected, setSelected] = useState<MenuItem | null>(null);
   const [view, setView] = useState<View>(() => viewForPath(window.location.pathname));
+  const theme = themeForView(view);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -83,14 +81,6 @@ export function App() {
   return (
     <div className="page">
       <header className="masthead">
-        <button
-          className="theme-toggle"
-          onClick={() => setTheme((t) => (t === 'day' ? 'night' : 'day'))}
-          aria-label={theme === 'day' ? 'Mudar para o modo noite' : 'Mudar para o modo dia'}
-        >
-          {theme === 'day' ? <Moon size={17} strokeWidth={1.6} /> : <Sun size={17} strokeWidth={1.6} />}
-        </button>
-
         <h1>{HOUSE.hosts}</h1>
         <p>{HOUSE.tagline}</p>
 

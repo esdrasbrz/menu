@@ -1,4 +1,6 @@
-export type MenuTabId = 'cafe' | 'night';
+export type MenuTabId = "day" | "night";
+
+export type Theme = "day" | "night";
 
 export interface MenuItem {
   id: string;
@@ -25,5 +27,7 @@ export interface MenuTab {
   path: string;
   /** Used only for the sr-only heading — the tab nav already shows it visibly. */
   title: string;
+  /** The palette shown while this tab is active — see `TABS` in menu.ts. */
+  theme: Theme;
   categories: MenuCategory[];
 }
