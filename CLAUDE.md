@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A menu for guests at Maju & Esdras' home, in two tabs: **Cardápio** (a café section for daytime,
-drinks for the evening — tap an item to see its photo and how it's made) and **Álbum** (photos of
+A menu for guests at Maju & Esdras' home, in three tabs: **Café** (daytime), **Noite** (drinks for
+the evening — tap an item in either to see its photo and how it's made), and **Álbum** (photos of
 guests, loaded live from a private Immich album). No ordering, and no application backend — the
 album's only server-side piece is an nginx proxy.
 
@@ -29,8 +29,8 @@ docker run --rm -p 8080:80 menu      # serve it on http://localhost:8080
 ## Language: Portuguese for guests, English for code
 
 This app is guest-facing at a Brazilian home, so **anything the guest sees must be in Brazilian
-Portuguese (pt-BR)**: menu item names, descriptions, notes, stories, host tips, section titles,
-UI labels, aria-labels, page `<title>`/meta tags — everything in [`src/data/menu.ts`](src/data/menu.ts),
+Portuguese (pt-BR)**: menu item names, descriptions, notes, stories, host tips, tab and category
+titles, UI labels, aria-labels, page `<title>`/meta tags — everything in [`src/data/menu.ts`](src/data/menu.ts),
 [`index.html`](index.html), and any user-facing strings in components.
 
 **Everything else stays in English**: code, identifiers, comments, commit messages, and this file.
@@ -42,26 +42,42 @@ guest-facing text.
 React + TypeScript + Vite. All menu content is driven by one data file:
 
 - [`src/data/menu.ts`](src/data/menu.ts) — the single source of truth for content: `HOUSE` (hosts,
-  tagline, ...), `MENU` (an array of `MenuSection`, each with an `items` array of
-  `MenuItem`), `TABS` (the two tab labels) and `ALBUM` (the album tab's headings and its loading,
-  error and empty messages). To edit the menu, edit only this file. `description` is the one line
-  shown in the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog.
-- [`src/types/menu.ts`](src/types/menu.ts) — the `MenuItem` / `MenuSection` shapes that `menu.ts`
-  must satisfy.
+  tagline, ...), `MENU` (an array of `MenuTab` — currently `cafe` and `night` — each with a
+  `categories` array of `MenuCategory`, each with an `items` array of `MenuItem`), and `ALBUM` (the
+  album tab's copy and its loading, error and empty messages). To edit the menu, edit only this
+  file. A category's `title` is optional — leave it unset for a category whose items need no
+  heading, set it whenever a group deserves one, whether or not the tab has other categories, e.g.
+  Café's `cafe-cafes` / `cafe-com-leite` / `cafe-outros`. `description` is the one line shown in
+  the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog.
+- [`src/types/menu.ts`](src/types/menu.ts) — the `MenuItem` / `MenuCategory` / `MenuTab` shapes that
+  `menu.ts` must satisfy.
 - [`src/App.tsx`](src/App.tsx) — top-level layout and state: which tab is open, which item is
   selected (opens `ItemDetail`), and the day/night theme.
 - `src/components/`
-  - `Tabs.tsx` — the Cardápio / Álbum switcher.
-  - `MenuSection.tsx` — renders one section's heading and its list of tappable items.
+  - `Tabs.tsx` — the Café / Noite / Álbum switcher, built from `MENU` plus `ALBUM`.
+  - `Menu.tsx` — renders one tab: its header, then each category's items as tappable rows.
   - `ItemDetail.tsx` — the dialog showing an item's photo, notes, story, and host tip.
   - `Album.tsx` / `AlbumTile.tsx` / `Lightbox.tsx` — the album tab.
   - `Footer.tsx` — footer.
 - `public/images/` — menu item photos, shown only in the detail dialog (not the list). Album photos
   do not live here; they come from Immich.
 
-**Tabs**: two views, `/` and `/album`, switched with `history.pushState` and a `popstate` listener
-in `App.tsx` — there is no router, and two views don't warrant one. `Album` is behind `React.lazy`
-so the menu page never downloads it; keep it that way, and keep its default export.
+**Tabs**: one view per `MenuTab` plus `album` (`/`, `/noite`, `/album`), switched with
+`history.pushState` and a `popstate` listener in `App.tsx` — there is no router, and this few views
+don't warrant one. Adding a `MenuTab` needs a matching path added to `PATHS` in `Tabs.tsx` and to
+`viewForPath`/`navigate` in `App.tsx`. `Album` is behind `React.lazy` so the menu page never
+downloads it; keep it that way, and keep its default export.
+
+**Categories vs. items**: a category title (when shown) is a small uppercase label — `.category-title`
+— never styled like a list row, so it can't be mistaken for a tappable item. An item row always
+carries a trailing chevron (`.item-chevron`) as the tap affordance. Keep that contrast — a heading
+never gets a chevron, an item never loses one.
+
+**Tab pages have no visible header at all**: the active link in `.tabs` already names the section,
+so a tab page goes straight from `.tab-page`'s top border into its categories/items — no repeated
+title, subtitle, or hours line. `tab.title` / `ALBUM.title` still exist as an `<h2 className="sr-only">`
+for a screen-reader landmark; don't add visible header copy back without solving the redundancy
+with `.tabs` and the name+description-shaped collision with `.item` rows that motivated removing it.
 
 **The album**: photos come from a private Immich album via one shared link. `src/lib/immich.ts`
 holds every endpoint the app touches — add new ones there, not inline. Three things constrain the

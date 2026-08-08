@@ -26,6 +26,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), albumId(env.VITE_IMMICH_ALBUM_ID ?? '')],
     server: {
+      port: env.PORT ? Number(env.PORT) : undefined,
       // Mirrors the /immich routes in nginx.conf.template, so dev and production speak to Immich
       // the same way. Without it the browser would hit Immich cross-origin, which fails: Immich
       // only enables CORS in its own dev mode.

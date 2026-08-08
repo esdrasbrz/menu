@@ -1,6 +1,6 @@
 import { Suspense, lazy, useCallback, useEffect, useState } from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { MenuSection } from './components/MenuSection';
+import { Menu } from './components/Menu';
 import { ItemDetail } from './components/ItemDetail';
 import { Footer } from './components/Footer';
 import { Tabs } from './components/Tabs';
@@ -18,7 +18,9 @@ function themeForNow(): 'day' | 'night' {
 }
 
 function viewForPath(path: string): View {
-  return path === '/album' ? 'album' : 'menu';
+  if (path === '/noite') return 'night';
+  if (path === '/album') return 'album';
+  return 'cafe';
 }
 
 export function App() {
@@ -38,10 +40,13 @@ export function App() {
   }, []);
 
   const navigate = useCallback((next: View) => {
-    window.history.pushState(null, '', next === 'album' ? '/album' : '/');
+    const path = next === 'night' ? '/noite' : next === 'album' ? '/album' : '/';
+    window.history.pushState(null, '', path);
     setView(next);
     window.scrollTo(0, 0);
   }, []);
+
+  const activeTab = MENU.find((tab) => tab.id === view);
 
   return (
     <div className="page">
@@ -61,14 +66,12 @@ export function App() {
       </header>
 
       <main>
-        {view === 'menu' ? (
-          MENU.map((section) => (
-            <MenuSection key={section.id} section={section} onSelect={setSelected} />
-          ))
-        ) : (
+        {view === 'album' ? (
           <Suspense fallback={<p className="album-message">{ALBUM.loading}</p>}>
             <Album />
           </Suspense>
+        ) : (
+          activeTab && <Menu tab={activeTab} onSelect={setSelected} />
         )}
       </main>
 
