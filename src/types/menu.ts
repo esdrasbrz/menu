@@ -1,4 +1,4 @@
-export type SectionId = 'cafe' | 'night';
+export type MenuTabId = 'cafe' | 'night';
 
 export interface MenuItem {
   id: string;
@@ -12,10 +12,16 @@ export interface MenuItem {
   hostTip: string;
 }
 
-export interface MenuSection {
-  id: SectionId;
-  title: string;
-  subtitle: string;
-  hours: string;
+/** A named group of items inside a tab. `title` is optional — leave it unset to render items with no heading. */
+export interface MenuCategory {
+  id: string;
+  title?: string;
   items: MenuItem[];
+}
+
+export interface MenuTab {
+  id: MenuTabId;
+  /** Used only for the sr-only heading — the tab nav already shows it visibly. */
+  title: string;
+  categories: MenuCategory[];
 }

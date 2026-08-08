@@ -13,12 +13,8 @@ export default function Album() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="section">
-      <div className="section-head">
-        <h2>{ALBUM.title}</h2>
-        <span className="section-hours">{ALBUM.hours}</span>
-      </div>
-      <p className="section-subtitle">{ALBUM.subtitle}</p>
+    <section className="tab-page">
+      <h2 className="sr-only">{ALBUM.title}</h2>
 
       {state.status === 'loading' && (
         <p className="album-message" role="status">

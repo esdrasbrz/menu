@@ -1,4 +1,4 @@
-import { TABS } from '../data/menu';
+import { ALBUM, MENU } from '../data/menu';
 import type { View } from '../types/view';
 
 interface Props {
@@ -6,9 +6,15 @@ interface Props {
   onNavigate: (view: View) => void;
 }
 
+const PATHS: Record<View, string> = {
+  cafe: '/',
+  night: '/noite',
+  album: '/album',
+};
+
 const ITEMS: { view: View; label: string; path: string }[] = [
-  { view: 'menu', label: TABS.menu, path: '/' },
-  { view: 'album', label: TABS.album, path: '/album' },
+  ...MENU.map((tab) => ({ view: tab.id, label: tab.title, path: PATHS[tab.id] })),
+  { view: 'album', label: ALBUM.title, path: PATHS.album },
 ];
 
 export function Tabs({ view, onNavigate }: Props) {
