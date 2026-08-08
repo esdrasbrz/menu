@@ -20,6 +20,11 @@ npm run preview      # preview the production build
 
 There is no test suite in this project.
 
+```bash
+docker build -t menu .              # build the deployable image
+docker run --rm -p 8080:80 menu      # serve it on http://localhost:8080
+```
+
 ## Language: Portuguese for guests, English for code
 
 This app is guest-facing at a Brazilian home, so **anything the guest sees must be in Brazilian
@@ -48,6 +53,12 @@ React + TypeScript + Vite, no backend. The whole app is driven by one data file:
   - `ItemDetail.tsx` — the dialog showing an item's photo, notes, story, and host tip.
   - `Footer.tsx` — guest WiFi details.
 - `public/images/` — item photos, shown only in the detail dialog (not the list).
+
+**Deployment**: [`Dockerfile`](Dockerfile) builds the site with Node and serves `dist/` with nginx
+using [`nginx.conf`](nginx.conf) (SPA fallback, gzip, immutable caching for `/assets/`, `/healthz`).
+The build stage is pinned to `$BUILDPLATFORM` because the output is static, so multi-arch images
+build without emulation. [`.github/workflows/docker.yml`](.github/workflows/docker.yml) publishes it
+to Docker Hub for the home server; see the README for the variable and secret it needs.
 
 **Day/night theme**: the theme is derived from the device clock (day 06:00–18:00, night otherwise).
 It's set once before first paint by an inline script in [`index.html`](index.html) (to avoid a
