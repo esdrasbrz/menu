@@ -1,5 +1,5 @@
-import { Wifi } from 'lucide-react';
-import { HOUSE } from '../data/menu';
+import { Wifi } from "lucide-react";
+import { HOUSE } from "../data/menu";
 
 export function Footer() {
   return (
@@ -7,7 +7,7 @@ export function Footer() {
       <div>
         <div className="wifi-label">
           <Wifi size={13} strokeWidth={2} />
-          WiFi para visitas
+          WiFi
         </div>
         <dl className="wifi-rows">
           <dt>Rede</dt>
