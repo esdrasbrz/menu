@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A menu for guests at Maju & Esdras' home, in two tabs: **Cardápio** (a café section for daytime,
 drinks for the evening — tap an item to see its photo and how it's made) and **Álbum** (photos of
 guests, loaded live from a private Immich album). No ordering, and no application backend — the
-album's only server-side piece is an nginx proxy. Guest WiFi is at the bottom of the page.
+album's only server-side piece is an nginx proxy.
 
 ## Commands
 
@@ -42,7 +42,7 @@ guest-facing text.
 React + TypeScript + Vite. All menu content is driven by one data file:
 
 - [`src/data/menu.ts`](src/data/menu.ts) — the single source of truth for content: `HOUSE` (hosts,
-  tagline, WiFi credentials), `MENU` (an array of `MenuSection`, each with an `items` array of
+  tagline, ...), `MENU` (an array of `MenuSection`, each with an `items` array of
   `MenuItem`), `TABS` (the two tab labels) and `ALBUM` (the album tab's headings and its loading,
   error and empty messages). To edit the menu, edit only this file. `description` is the one line
   shown in the list; `notes`, `story`, and `hostTip` appear only in the item's detail dialog.
@@ -55,7 +55,7 @@ React + TypeScript + Vite. All menu content is driven by one data file:
   - `MenuSection.tsx` — renders one section's heading and its list of tappable items.
   - `ItemDetail.tsx` — the dialog showing an item's photo, notes, story, and host tip.
   - `Album.tsx` / `AlbumTile.tsx` / `Lightbox.tsx` — the album tab.
-  - `Footer.tsx` — guest WiFi details.
+  - `Footer.tsx` — footer.
 - `public/images/` — menu item photos, shown only in the detail dialog (not the list). Album photos
   do not live here; they come from Immich.
 
