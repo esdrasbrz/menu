@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { useScrollLock } from '../hooks/useScrollLock';
 import type { MenuItem } from '../types/menu';
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
 export function ItemDetail({ item, onClose }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
+  useScrollLock();
+
   useEffect(() => {
     closeRef.current?.focus();
 
@@ -18,12 +21,8 @@ export function ItemDetail({ item, onClose }: Props) {
     };
     document.addEventListener('keydown', onKeyDown);
 
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
-
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = overflow;
     };
   }, [onClose]);
 
