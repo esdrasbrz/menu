@@ -2,7 +2,7 @@
 
 A menu for guests at our home, in two tabs. **Cardápio** is the menu itself — café for the daytime,
 drinks for the evening; tap an item to see its photo and how it's made. **Álbum** is a gallery of
-guests, loaded live from a private album on our Immich server. Guest WiFi is at the bottom.
+guests, loaded live from a private album on our Immich server.
 
 ## Running it
 
@@ -56,11 +56,11 @@ adding a photo means uploading it to Immich, not deploying.
 
 **Configuring the container** — three variables, all read at start-up, none baked into the image:
 
-| Variable | Example | What it is |
-| --- | --- | --- |
-| `MENU_IMMICH_UPSTREAM` | `192.168.0.10:2283` | Host and port where the menu container reaches Immich |
-| `MENU_IMMICH_ALBUM_ID` | `3f2c9a1e-…` | The album to show |
-| `MENU_IMMICH_SHARE_KEY` | `k7Qz2pRt…` | The key from that album's shared link |
+| Variable                | Example             | What it is                                            |
+| ----------------------- | ------------------- | ----------------------------------------------------- |
+| `MENU_IMMICH_UPSTREAM`  | `192.168.0.10:2283` | Host and port where the menu container reaches Immich |
+| `MENU_IMMICH_ALBUM_ID`  | `3f2c9a1e-…`        | The album to show                                     |
+| `MENU_IMMICH_SHARE_KEY` | `k7Qz2pRt…`         | The key from that album's shared link                 |
 
 ```yaml
 services:
@@ -68,7 +68,7 @@ services:
     image: <docker-hub-user>/menu:latest
     restart: unless-stopped
     ports:
-      - '8080:80'
+      - "8080:80"
     environment:
       MENU_IMMICH_UPSTREAM: 192.168.0.10:2283
       MENU_IMMICH_ALBUM_ID: <album id>
@@ -154,7 +154,7 @@ album's only server-side piece is the nginx proxy described above.
 src/
   App.tsx                    theme state, page layout, which tab is open
   index.css                  the whole design system, day + night
-  data/menu.ts               every item, the tab labels, the album copy, the WiFi details
+  data/menu.ts               every item, the tab labels, the album copy, ...
   types/menu.ts              MenuItem, MenuSection
   types/immich.ts            the slice of the Immich API we read
   types/view.ts              the two tabs
@@ -168,7 +168,7 @@ src/
     Album.tsx                the photo grid (lazy-loaded)
     AlbumTile.tsx            one photo in the grid
     Lightbox.tsx             the full-screen photo viewer
-    Footer.tsx               guest WiFi
+    Footer.tsx               standard footer
 public/images/               menu photos, shown only in the detail dialog
 ```
 
@@ -181,7 +181,7 @@ downloads it. The grid asks Immich for its small webp thumbnails and lets the br
 them, each tile is a fixed square backed by a thumbhash blur so nothing shifts as photos arrive, and
 the full-size image is only fetched when a photo is opened.
 
-**How soon new photos show up** — within about two minutes. The photo *list* is re-checked every
+**How soon new photos show up** — within about two minutes. The photo _list_ is re-checked every
 two minutes while the album is on screen (and whenever the tab is brought back to the foreground),
 so photos uploaded during a party appear without anyone reloading. The list itself is never cached
 by the browser; what is cached for 30 days is each individual thumbnail, which is safe because a new

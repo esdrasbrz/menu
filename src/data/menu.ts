@@ -3,8 +3,6 @@ import type { MenuSection } from "../types/menu";
 export const HOUSE = {
   hosts: "Maju & Esdras",
   tagline: "Nosso café e bar em casa. Fique à vontade.",
-  wifiNetwork: "MajuEsdras_Guest",
-  wifiPassword: "coffee-and-cocktails",
 };
 
 /** Labels for the two top-level views. */
