@@ -20,6 +20,8 @@ body[data-theme='day'] {
   --text-muted: #6f665e;
   --accent: #96602a;
   --overlay: rgba(41, 37, 33, 0.32);
+  /* Behind a photo rather than an opaque card, so it has to carry the contrast on its own. */
+  --overlay-strong: rgba(28, 25, 23, 0.82);
   --shadow: 0 24px 60px -20px rgba(41, 37, 33, 0.28);
 }
 
@@ -34,6 +36,7 @@ body[data-theme='night'] {
   --text-muted: #9a9088;
   --accent: #d3a25f;
   --overlay: rgba(0, 0, 0, 0.66);
+  --overlay-strong: rgba(0, 0, 0, 0.9);
   --shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.7);
 }
 
@@ -121,6 +124,50 @@ button {
   background: var(--line-soft);
 }
 
+/* ---------- Tabs ---------- */
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.tab {
+  position: relative;
+  padding-bottom: 0.35rem;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--text-muted);
+  transition: color 0.2s var(--ease);
+}
+
+.tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.25s var(--ease);
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab.is-active {
+  color: var(--accent);
+}
+
+.tab.is-active::after {
+  transform: scaleX(1);
+}
+
 /* ---------- Sections ---------- */
 
 .section + .section {
@@ -195,6 +242,143 @@ button {
   margin-top: 0.15rem;
   font-size: 0.83rem;
   color: var(--text-muted);
+}
+
+/* ---------- Album ---------- */
+
+.album-message {
+  margin-top: 1.75rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+}
+
+.tile {
+  position: relative;
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  background-color: var(--line-soft);
+  background-size: cover;
+  background-position: center;
+}
+
+.tile-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.tile-image.is-loaded {
+  opacity: 1;
+}
+
+.tile:hover .tile-image.is-loaded,
+.tile:focus-visible .tile-image.is-loaded {
+  transform: scale(1.04);
+}
+
+.tile-badge {
+  position: absolute;
+  bottom: 0.35rem;
+  right: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- Lightbox ---------- */
+
+.backdrop.is-lightbox {
+  background: var(--overlay-strong);
+}
+
+.lightbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(56rem, 100%);
+  max-height: 100%;
+  animation: rise 0.28s var(--ease);
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(86vh, 46rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.lightbox-image.is-loaded {
+  opacity: 1;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: background-color 0.2s var(--ease);
+}
+
+.lightbox-nav:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.lightbox-nav.is-previous {
+  left: 0.75rem;
+}
+
+.lightbox-nav.is-next {
+  right: 0.75rem;
+}
+
+.lightbox-count {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.42);
 }
 
 /* ---------- Footer ---------- */

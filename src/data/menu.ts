@@ -7,6 +7,22 @@ export const HOUSE = {
   wifiPassword: "coffee-and-cocktails",
 };
 
+/** Labels for the two top-level views. */
+export const TABS = {
+  menu: "Cardápio",
+  album: "Álbum",
+};
+
+/** The album tab. The photos themselves come from Immich, not from here. */
+export const ALBUM = {
+  title: "Álbum",
+  subtitle: "Nossos convidados, drink na mão",
+  hours: "De todas as noites",
+  loading: "Carregando as fotos…",
+  error: "Não foi possível carregar o álbum agora.",
+  empty: "Ainda não há fotos por aqui.",
+};
+
 export const MENU: MenuSection[] = [
   {
     id: "cafe",

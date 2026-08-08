@@ -1,0 +1,95 @@
+# Rendered at container start by the nginx image's own envsubst step. Only ${MENU_*} are
+# substituted (NGINX_ENVSUBST_FILTER in the Dockerfile), so nginx's $uri, $arg_* and $1 survive.
+
+# An upstream group rather than a bare hostname: it lets proxy_pass take a path built from
+# variables without nginx demanding a `resolver`. The name is resolved once at startup, so a
+# changed LAN address needs a container restart.
+upstream immich {
+    server ${MENU_IMMICH_UPSTREAM};
+}
+
+# Only the two sizes the app asks for. Anything else — original, fullsize — becomes a thumbnail.
+map $arg_size $immich_size {
+    default   thumbnail;
+    "preview" preview;
+}
+
+server {
+    listen 80;
+    server_name _;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css application/javascript application/json image/svg+xml;
+
+    # Vite fingerprints everything under /assets/, so it can be cached forever.
+    location /assets/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # The entry point must not be cached, or guests keep the previous deploy.
+    location = /index.html {
+        add_header Cache-Control "no-cache";
+    }
+
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    # ---------- Album ----------
+    #
+    # A narrow window onto Immich. The album's shared-link key is added here rather than in the
+    # browser, so guests never learn it: they cannot reshare a direct Immich link, and rotating the
+    # key is an environment change rather than a rebuild. The UUID-only pattern and the method and
+    # size whitelists are what stop this being a general proxy into Immich.
+    #
+    # There is no guest gate: anyone who can reach the menu can see the album. To add a passcode,
+    # see the README — it is a `map` on a cookie plus one `if` in each location below.
+
+    # Answered here rather than proxied to /api/shared-links/me, which echoes the key (and the
+    # link's password) back in its body. Nothing that can leak the key is exposed at all, and the
+    # app saves a round-trip to Immich before it can ask for any photos.
+    location = /immich/album {
+        limit_except GET { deny all; }
+        default_type application/json;
+        add_header Cache-Control "no-store";
+        return 200 '{"albumId":"${MENU_IMMICH_ALBUM_ID}"}';
+    }
+
+    location = /immich/search {
+        limit_except POST { deny all; }
+        proxy_pass http://immich/api/search/metadata?key=${MENU_IMMICH_SHARE_KEY};
+        proxy_set_header Host $host;
+        proxy_hide_header Cache-Control;
+        add_header Cache-Control "no-store";
+    }
+
+    # The client appends c=<thumbhash>, which changes whenever the photo is edited. Immich never
+    # sees it — proxy_pass replaces the query string — but it varies the browser's cache key, which
+    # is what makes caching this immutably correct. Immich's own Cache-Control is shorter and
+    # private, and has to be hidden or the browser gets two headers and honours that one instead.
+    location ~ "^/immich/thumb/([0-9a-fA-F-]{36})$" {
+        limit_except GET { deny all; }
+        proxy_pass http://immich/api/assets/$1/thumbnail?key=${MENU_IMMICH_SHARE_KEY}&size=$immich_size;
+        proxy_set_header Host $host;
+        proxy_hide_header Cache-Control;
+        add_header Cache-Control "public, max-age=2592000, immutable";
+    }
+
+    # Anything else under /immich/ is not part of the contract. Without this it would fall through
+    # to the SPA fallback below and answer 200 with index.html, which is just confusing.
+    location /immich/ {
+        return 404;
+    }
+
+    # Single page app: unknown paths fall back to the entry point.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

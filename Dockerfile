@@ -13,7 +13,11 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# The image's own entrypoint renders /etc/nginx/templates/*.template into conf.d at start-up. The
+# filter keeps envsubst away from nginx's own $variables, so only ${MENU_*} are replaced.
+ENV NGINX_ENVSUBST_FILTER=^MENU_
+
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
