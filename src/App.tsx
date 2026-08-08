@@ -26,7 +26,7 @@ export function App() {
         <button
           className="theme-toggle"
           onClick={() => setTheme((t) => (t === 'day' ? 'night' : 'day'))}
-          aria-label={theme === 'day' ? 'Switch to night' : 'Switch to day'}
+          aria-label={theme === 'day' ? 'Mudar para o modo noite' : 'Mudar para o modo dia'}
         >
           {theme === 'day' ? <Moon size={17} strokeWidth={1.6} /> : <Sun size={17} strokeWidth={1.6} />}
         </button>

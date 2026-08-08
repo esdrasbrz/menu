@@ -36,7 +36,7 @@ export function ItemDetail({ item, onClose }: Props) {
         aria-labelledby="detail-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <button ref={closeRef} className="detail-close" onClick={onClose} aria-label="Close">
+        <button ref={closeRef} className="detail-close" onClick={onClose} aria-label="Fechar">
           <X size={16} strokeWidth={2} />
         </button>
 
@@ -55,7 +55,7 @@ export function ItemDetail({ item, onClose }: Props) {
           <p className="detail-story">{item.story}</p>
 
           <div className="detail-tip">
-            <div className="detail-tip-label">From the hosts</div>
+            <div className="detail-tip-label">Dica da casa</div>
             <p>{item.hostTip}</p>
           </div>
         </div>
