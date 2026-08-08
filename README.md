@@ -17,6 +17,24 @@ npm run dev
 npm run build
 ```
 
+## Checks
+
+`npm install` also installs a git pre-commit hook (husky) that runs the linter and the type
+checker. Both are quick — under two seconds together — and a failure stops the commit.
+
+```bash
+npm run lint
+```
+
+```bash
+npm run typecheck
+```
+
+Lint severity lives in [`.oxlintrc.json`](.oxlintrc.json): the `correctness` category is an error
+and blocks commits, while rules set to `warn` are advisory and don't. In a genuine emergency
+`git commit --no-verify` skips the hook, but the same checks run again in CI on every pull request,
+so the branch still has to pass.
+
 ## How it's put together
 
 React + TypeScript + Vite. No backend, no ordering — it's a menu, not a shop.
