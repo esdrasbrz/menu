@@ -51,7 +51,7 @@ export const MENU: MenuSection[] = [
           "projetado para direcionar o fluxo de água para o centro, aumentando o " +
           "tempo de contato com o café.",
         hostTip:
-          "Espera um minuto ou dois para ele dar uma amornada. Conforme a " +
+          "Espere um minuto ou dois para ele dar uma amornada. Conforme a " +
           "temperatura cai, os aromas se abrem e você consegue sentir de verdade as notas " +
           "mais doces e frutadas da torra.",
       },
@@ -75,7 +75,7 @@ export const MENU: MenuSection[] = [
         image: "/images/capuccino.jpg",
         notes: ["Microespuma aveludada"],
         story:
-          "Reza a lenda que a cor da mistura de café com leite, rematada por uma espuma clara, lembrava " +
+          "Reza a lenda que a cor da mistura de café com leite lembrava " +
           "a túnica com capuz usada pelos Frades Menores Capuchinhos (Cappuccini), do século XVII.",
         hostTip:
           "Experimente não misturar a espuma com a colher antes de beber. " +
@@ -90,13 +90,14 @@ export const MENU: MenuSection[] = [
         image: "/images/viralatte_caramelo.jpg",
         notes: ["Caramelo", "Leite", "Crema de espresso"],
         story:
-          "Batizado em homenagem ao querido cachorro caramelo das ruas do Brasil — caloroso, alegre, impossível de ignorar.",
+          "Preferido da Maju (mas ela não pode tomar porque fica pulando pela casa com a cafeína). " +
+          "É Macchiato, só que sem receita certa 🤷🏻‍♀️",
         hostTip: "Acrescente canela. Muita!",
       },
       {
         id: "agua",
         name: "Água da casa",
-        description: "É o que é",
+        description: "É o que é.",
         image: "/images/agua.jpg",
         notes: ["Aguada"],
         story: "",
