@@ -1,53 +1,45 @@
-# Maju & Esdras — Home Cafe, Bar & Cellar ☕🍸🍷
+# Maju & Esdras — Menu
 
-An interactive, responsive digital menu and hospitality landing page designed for welcoming friends, family, and guests at home.
+A one-page menu for guests at our home. Two sections: café for the daytime, drinks for the evening.
+Tap an item to see its photo and how it's made. Guest WiFi is at the bottom.
 
----
-
-## ✨ Features
-
-- ☀️ 🌙 **Atmospheric Time-of-Day Moods**: Auto-detects morning vs. evening ambiance with manual switch (Daylight Cafe vs. Velvet Speakeasy).
-- 🏷️ **The Signature Highlight**: Dedicated spotlight for the house favorite **"Vira-Lata Caramelo"** (Iced Salted Caramel Macchiato).
-- 📖 **Interactive Tasting Notes & Flavor Radars**: Deep-dive modals with recipe history, origin notes, flavor balance bars, and host tips.
-- 🫖 **5 Curated Categories**:
-  1. *Morning Cafe & Breakfast* (V60 Pour-over, Vira-Lata Caramelo, Cold Brew Tonic)
-  2. *Afternoon Tea & Refreshers* (Uji Ceremonial Matcha, Sparkling Yuzu Spritz)
-  3. *Signature Cocktails & Evening Bar* (Smoked Cherrywood Old Fashioned, Espresso Martini Riserva)
-  4. *Wine Cellar & Craft Beers* (Natural Skin-Contact Amber Wine, Pet-Nats)
-  5. *Grazing Boards & Delicacies* (Prosciutto di Parma, 24-Mo Gouda, Raw Honeycomb)
-- 🍸 **"Curate Your Flight" Guest Tray**: Guests can pick drinks/bites, add custom preparation notes (e.g. *"Oat milk please"*, *"Less sweet"*), celebrate with a confetti burst, and copy their personalized tasting card for the hosts!
-- 📶 **Guest Amenities**: WiFi access details, coffee and cocktail bar station equipment, and house hospitality notes.
-
----
-
-## 🛠️ Tech Stack
-
-- **Framework**: React 19 + TypeScript + Vite
-- **Styling**: Vanilla CSS Design Tokens (Glassmorphism, Ambient Orbs, Custom Scrollbars)
-- **Icons & Effects**: Lucide React, Canvas Confetti
-- **Typography**: Google Fonts (*Playfair Display*, *Cormorant Garamond*, *Plus Jakarta Sans*)
-
----
-
-## 🚀 Quick Start
+## Running it
 
 ```bash
-# Install dependencies
 npm install
+```
 
-# Start development server
+```bash
 npm run dev
+```
 
-# Build for production
+```bash
 npm run build
 ```
 
----
+## How it's put together
 
-## 📚 Documentation
+React + TypeScript + Vite. No backend, no ordering — it's a menu, not a shop.
 
-Detailed documentation is stored in the `docs/` folder:
-- 🏛️ [Architecture & Components Guide](docs/ARCHITECTURE.md)
-- ☕ [Menu Taxonomy & Recipe Catalog](docs/MENU_CATALOG.md)
-- 🗺️ [Roadmap & Feature Matrix](docs/ROADMAP_AND_TODO.md)
-- 📖 [Operations & Deployment Runbook](docs/RUNBOOK.md)
+```
+src/
+  App.tsx                    theme state, page layout
+  index.css                  the whole design system, day + night
+  data/menu.ts               every item and the WiFi details
+  types/menu.ts              MenuItem, MenuSection
+  components/
+    MenuSection.tsx          a section heading and its list of items
+    ItemDetail.tsx           the dialog with the photo and story
+    Footer.tsx               guest WiFi
+public/images/               photos, shown only in the detail dialog
+```
+
+**Editing the menu** — everything is in [`src/data/menu.ts`](src/data/menu.ts). Add an item to a
+section's `items` array; the `description` is the one line shown in the list, and `notes`, `story`
+and `hostTip` only appear when the item is tapped.
+
+**Day and night** — day is warm paper, night is low light. The theme is picked from the device
+clock (day 06:00–18:00) by an inline script in [`index.html`](index.html) so there's no flash on
+load, then the toggle in the top-right overrides it for the visit. Both palettes are defined as
+custom properties under `body[data-theme=...]` in [`src/index.css`](src/index.css); nothing else in
+the CSS hardcodes a colour.
