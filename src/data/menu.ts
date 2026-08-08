@@ -1,4 +1,4 @@
-import type { MenuTab } from "../types/menu";
+import type { MenuTab, Theme } from "../types/menu";
 import type { View } from "../types/view";
 
 export const HOUSE = {
@@ -11,6 +11,7 @@ export const ALBUM = {
   id: "album" as const,
   path: "/album",
   title: "Álbum",
+  theme: "night" as const,
   loading: "Carregando as fotos…",
   error: "Não foi possível carregar o álbum agora.",
   empty: "Ainda não há fotos por aqui.",
@@ -18,9 +19,10 @@ export const ALBUM = {
 
 export const MENU: MenuTab[] = [
   {
-    id: "cafe",
+    id: "day",
     path: "/",
-    title: "Café",
+    title: "Dia",
+    theme: "day",
     categories: [
       {
         id: "cafe-cafes",
@@ -119,8 +121,9 @@ export const MENU: MenuTab[] = [
   },
   {
     id: "night",
-    path: "/noite",
+    path: "/night",
     title: "Noite",
+    theme: "night",
     categories: [
       {
         id: "night-principal",
@@ -172,11 +175,11 @@ export const MENU: MenuTab[] = [
 ];
 
 /**
- * Every top-level tab, in display order — the single source for the tab nav, URL routing, and
- * swipe order. Adding a tab (a new `MENU` entry, or another `ALBUM`-style one appended here) needs
- * no other change in `App.tsx` or `Tabs.tsx`.
+ * Every top-level tab, in display order — the single source for the tab nav, URL routing, swipe
+ * order, and which palette (`theme`) is active while it's open. Adding a tab (a new `MENU` entry,
+ * or another `ALBUM`-style one appended here) needs no other change in `App.tsx` or `Tabs.tsx`.
  */
-export const TABS: { id: View; path: string; title: string }[] = [
-  ...MENU.map(({ id, path, title }) => ({ id, path, title })),
-  { id: ALBUM.id, path: ALBUM.path, title: ALBUM.title },
+export const TABS: { id: View; path: string; title: string; theme: Theme }[] = [
+  ...MENU.map(({ id, path, title, theme }) => ({ id, path, title, theme })),
+  { id: ALBUM.id, path: ALBUM.path, title: ALBUM.title, theme: ALBUM.theme },
 ];

@@ -14,10 +14,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
-    <!-- Set the theme before first paint so there is no flash of the wrong one. -->
+    <!--
+      Set the theme before first paint so there is no flash of the wrong one. Each tab has its own
+      theme (see the `theme` field on tabs in src/data/menu.ts) — the day tab is the only one at
+      '/', everything else is night, which this mirrors without waiting on the JS module to load.
+    -->
     <script>
-      var h = new Date().getHours();
-      document.body.dataset.theme = h >= 6 && h < 18 ? 'day' : 'night';
+      document.body.dataset.theme = window.location.pathname === '/' ? 'day' : 'night';
     </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
