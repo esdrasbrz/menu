@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { thumbUrl } from '../lib/immich';
 import { blurDataUrl } from '../lib/thumbhash';
 import type { ImmichAsset } from '../types/immich';
@@ -27,7 +28,9 @@ export function Lightbox({ assets, index, onChange, onClose }: Props) {
     closeRef.current?.focus();
   }, []);
 
-  // Mirrors ItemDetail: Escape closes, and the page behind must not scroll.
+  // Mirrors ItemDetail: the grid behind must not scroll, and Escape closes.
+  useScrollLock();
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -36,12 +39,8 @@ export function Lightbox({ assets, index, onChange, onClose }: Props) {
     };
     document.addEventListener('keydown', onKeyDown);
 
-    const { overflow } = document.body.style;
-    document.body.style.overflow = 'hidden';
-
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = overflow;
     };
   }, [index, hasPrevious, hasNext, onChange, onClose]);
 

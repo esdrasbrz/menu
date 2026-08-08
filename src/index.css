@@ -442,6 +442,7 @@ button {
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   animation: fade 0.2s var(--ease);
+  overscroll-behavior: contain;
 }
 
 .detail {
@@ -449,6 +450,8 @@ button {
   width: min(30rem, 100%);
   max-height: min(86vh, 46rem);
   overflow-y: auto;
+  /* Reaching the end of the dialog must not hand the scroll on to the menu behind it. */
+  overscroll-behavior: contain;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
